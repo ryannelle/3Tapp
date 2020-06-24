@@ -1,0 +1,35 @@
+---
+# tasks file for rnelle.postgres---
+
+- name: install postgres
+  yum:
+    name: postgresql-server
+    state: latest
+
+- name: enable postgres at boot
+  service:
+    name: postgresql
+    enabled: yes
+
+- name: tell user to finish setting up postgres
+  debug:
+    msg: "Either uncomment the postgres setup or manually login and initialize"
+
+- name: check config dir for files
+  command: ls /var/lib/pgsql
+  register: pgsql_dir
+
+# only run the next 2 tasks once!
+- name: initilize postgres
+  command: postgresql-setup initdb
+  when: pgsql_dir.stdout == ""
+
+- name: initilize postgres some more
+  command: chkconfig postgresql on
+  when: pgsql_dir.stdout == ""
+
+
+- name: start postgres
+  service:
+    name: postgresql.service
+    state: started
