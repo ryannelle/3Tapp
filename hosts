@@ -13,5 +13,11 @@ frontends
 apps
 appdbs
 
+[isolated_group_osp]
+workstation-8d8b.blue.osp.opentlc.com ansible_user='cloud-user' ansible_ssh_private_key_file='/root/.ssh/openstack.pem'
+
+[isolated_group_osp:vars]
+controller=tower
+
 [internal:vars]
 GUID="{{ lookup('env', 'GUID') }}"
