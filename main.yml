@@ -26,7 +26,7 @@
       mode: 0644
 
 - name: In-Memory inventory playbook
-  hosts: worksation
+  hosts: worksation-8d8b.blue.osp.opentlc.com
   tasks:
     - name: Fetch Instance Info
       os_server_facts:
