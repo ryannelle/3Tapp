@@ -57,9 +57,12 @@
     service:
       name: httpd
       state: started
+      
+#####
 
 - name: In-Memory inventory playbook
-  hosts: workstation-8d8b.blue.osp.opentlc.com
+  hosts: localhost
+  #workstation-8d8b.blue.osp.opentlc.com
   tasks:
     - name: Fetch Instance Info
       os_server_facts:
