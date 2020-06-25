@@ -24,6 +24,23 @@
       src: ./open_three-tier-app.repo
       dest: /etc/yum.repos.d/open_three-tier-app.repo
       mode: 0644
+#####
+
+- name: In-Memory inventory playbook
+  hosts: localhost
+  #workstation-8d8b.blue.osp.opentlc.com
+  tasks:
+    - name: Fetch Instance Info
+      os_server_facts:
+        cloud: openstack
+      register: result
+
+    - name: Add host
+      add_host:
+        name: "{{ item.public_v4 }}"
+        group: "{{ item.metadata.group }}"
+        deployment_name: "{{ item.metadata.deployment_name }}"
+      with_items: "{{result.openstack_servers}}"
 
 #Work via roles
 
@@ -57,28 +74,3 @@
     service:
       name: httpd
       state: started
-      
-#####
-
-- name: In-Memory inventory playbook
-  hosts: localhost
-  #workstation-8d8b.blue.osp.opentlc.com
-  tasks:
-    - name: Fetch Instance Info
-      os_server_facts:
-        cloud: openstack
-      register: result
-
-    - name: Add host
-      add_host:
-        name: "{{ item.public_v4 }}"
-        group: "{{ item.metadata.group }}"
-        deployment_name: "{{ item.metadata.deployment_name }}"
-      with_items: "{{result.openstack_servers}}"
-
-      #    - name: Add host
-      #add_host:
-      #  name: "{{ item.public_v4 }}"
-      #  group: "{{ item.metadata.deployment_name }}"
-      #with_items: "{{result.openstack_servers}}"
-
