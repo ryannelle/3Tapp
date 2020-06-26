@@ -27,6 +27,7 @@
 
 - name: In-Memory inventory playbook
   hosts: localhost
+  gather_facts: false
   #workstation-8d8b.blue.osp.opentlc.com
   tasks:
     - name: Fetch Instance Info
@@ -37,12 +38,12 @@
       add_host:
         name: "{{ item.public_v4 }}"
         group: "{{ item.metadata.group }}"
-      with_items: "{{ansible_facts.openstack_servers}}"
+      with_items: "{{ result.ansible_facts.openstack_servers }}"
     - name: Add host
       add_host:
         name: "{{ item.public_v4 }}"
         group: "{{ item.metadata.deployment_name }}"
-      with_items: "{{ansible_facts.openstack_servers}}"
+      with_items: "{{ result.ansible_facts.openstack_servers }}"
 
 #Work via roles
 
