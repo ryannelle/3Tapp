@@ -28,7 +28,7 @@
 - name: In-Memory inventory playbook
   hosts: localhost
   gather_facts: false
-  #workstation-8d8b.blue.osp.opentlc.com
+  become: false
   tasks:
     - name: Fetch Instance Info
       os_server_facts:
